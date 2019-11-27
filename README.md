@@ -17,6 +17,15 @@ The generated project has been tested with SoapUI 5.5.0
 
 - No dependency
 
+## Variables
+
+This bundle uses the following variables :
+
+- `PROJECT_NAME`
+- `REST_URL_ROOT   (  e.g. http://localhost:8080 )`  
+
+These variables must be defined before launching code generation
+
 
 ## License
 
