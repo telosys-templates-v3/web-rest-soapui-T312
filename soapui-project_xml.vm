@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<con:soapui-project id="project-00001" activeEnvironment="Default" 
+   name="REST project ${PROJECT_NAME}" resourceRoot="" soapui-version="5.5.0" 
+   abortOnError="false" runType="SEQUENTIAL" 
+   xmlns:con="http://eviware.com/soapui/config">
+
+#using("REST_URL_ROOT", "PROJECT_NAME")
+#set( $endpoint = ${REST_URL_ROOT} )
+#set( $endpointProperty = "${DOLLAR}{#Project#RestEndPoint}" )
+
+<!-- Project custom properties -->
+<con:properties>
+   <con:property>
+      <con:name>RestEndPoint</con:name>  <!-- Used as ${endpointProperty} -->
+      <con:value>$endpoint</con:value>
+   </con:property>
+##   <con:property>
+##      <con:name>Foo</con:name>
+##      <con:value>bar</con:value>
+##   </con:property>
+</con:properties>
+
+<!-- REST INTERFACE -->
+<con:interface name="REST interface requests" type="rest" id="interface-00001" 
+   xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" 
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+<con:endpoints>
+  <con:endpoint>${endpoint}</con:endpoint>
+</con:endpoints>
+
+#foreach( $entity in $selectedEntities )
+
+<!-- ================================================= -->
+#set( $keyValues   = $fn.buildValues($entity.keyAttributes, 1) )
+#set( $entityIdURI = $keyValues.toURI() ) ## /v1/v2/v3
+#set( $values      = $fn.buildValues($entity.attributes, 1) )
+#set( $json = $values.toJSON("${NEWLINE}  ", "${NEWLINE}") )
+
+#set( $resourceName = $fn.uncapitalize($entity.name) )
+
+<!-- "${entity.name}" RESOURCE -->
+<con:resource path="/${resourceName}/" name="${resourceName}"  id="${resourceName}">
+  <!-- GET -->
+  <con:method method="GET" name="GET ALL" id="${resourceName}-method-get-all" >
+    <con:request name="${resourceName} GET ALL" id="${resourceName}-request-get-all" mediaType="application/json">
+      <con:endpoint>${endpointProperty}</con:endpoint>
+    </con:request>
+  </con:method>
+  <!-- POST -->
+  <con:method method="POST" name="POST (create)" id="${resourceName}-method-post" >
+    <con:request name="${resourceName} POST (create)" id="${resourceName}-request-post" mediaType="application/json">
+      <con:endpoint>${endpointProperty}</con:endpoint>
+      <con:request>
+${json}
+      </con:request>
+    </con:request>
+  </con:method>
+  <!-- PUT -->
+  <con:method method="PUT" name="PUT (save)" id="${resourceName}-method-put" >
+    <con:request name="${resourceName} PUT (save)" id="${resourceName}-request-put" mediaType="application/json">
+      <con:endpoint>${endpointProperty}</con:endpoint>
+      <con:request>
+${json}
+      </con:request>
+    </con:request>
+  </con:method>
+</con:resource>
+
+<!-- "${entity.name}" RESOURCE WITH ID -->
+<con:resource path="/${resourceName}${entityIdURI}" name="${resourceName}-with-id" id="${resourceName}-with-id"  >
+  <!-- GET -->
+  <con:method method="GET" name="GET WITH ID" id="${resourceName}-with-id-method-get"  >
+    <con:request name="${resourceName} GET WITH ID" id="${resourceName}-with-id-request-get" mediaType="application/json">
+      <con:endpoint>${endpointProperty}</con:endpoint>
+    </con:request>
+  </con:method>
+  <!-- DELETE -->
+  <con:method method="DELETE" name="DELETE WITH ID" id="${resourceName}-with-id-method-delete"  >
+    <con:request name="${resourceName} DELETE WITH ID" id="${resourceName}-with-id-request-delete" mediaType="application/json">
+      <con:endpoint>${endpointProperty}</con:endpoint>
+    </con:request>
+  </con:method>
+</con:resource>
+
+#end
+<!-- ================================================= -->
+
+</con:interface>
+
+</con:soapui-project>
