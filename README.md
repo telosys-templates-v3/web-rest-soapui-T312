@@ -1,6 +1,6 @@
 # Telosys templates bundle for REST testing with SOAP-UI
 
-A [Telosys](http://telosys.org) bundle to generate files for [SoapUI](https://www.soapui.org/) tool.
+A [Telosys](http://www.telosys.org/) bundle to generate files for [SoapUI](https://www.soapui.org/) tool.
 
 This bundle generates a SoapUI project file (XML file) containing a set of REST requests for each entity defined in the model.
 
