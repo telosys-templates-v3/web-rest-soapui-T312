@@ -1,12 +1,12 @@
 # Telosys templates bundle for REST testing with SOAP-UI
 
-A [Telosys](http://telosys.org) bundle to generate a SOAP-UI project file.
+A [Telosys](http://telosys.org) bundle to generate files for [SoapUI](https://www.soapui.org/) tool.
 
-This bundle generates code for [SoapUI](https://www.soapui.org/) tool.
+This bundle generates a SoapUI project file (XML file) containing a set of REST requests for each entity defined in the model.
 
-The generated file is a SoapUI project file (XML file).
+Once the project file has been generated just import it in SoapUI with "*File / Import project*"
 
-Once this file has been generated just import it in SoapUI with "*File / Import project*"
+The generated project has been tested with SoapUI 5.5.0
 
 ## Requirements
 
